@@ -3,12 +3,406 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GourmetCompara</title>
+<title>GourmetCompara | Comparador Gourmet</title>
+
+<style>
+
+:root{
+--gold:#c8a25d;
+--dark:#1b1b1b;
+--light:#f8f8f8;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+background:var(--light);
+color:#222;
+}
+
+header{
+background:var(--dark);
+padding:20px;
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.header-container{
+max-width:1200px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:30px;
+font-weight:bold;
+color:var(--gold);
+}
+
+.hero{
+background:linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1400&q=80');
+background-size:cover;
+background-position:center;
+padding:100px 20px;
+text-align:center;
+color:white;
+}
+
+.hero h1{
+font-size:55px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:20px;
+margin-bottom:30px;
+}
+
+.search-box{
+max-width:700px;
+margin:auto;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.search-box input,
+.search-box select{
+padding:15px;
+border:none;
+border-radius:8px;
+font-size:16px;
+}
+
+.search-box input{
+width:350px;
+}
+
+.search-box select{
+width:200px;
+}
+
+section{
+padding:60px 20px;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:40px;
+font-size:36px;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+}
+
+.card{
+background:white;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.card-content{
+padding:20px;
+}
+
+.category{
+display:inline-block;
+padding:5px 10px;
+background:#eee;
+border-radius:30px;
+font-size:13px;
+margin-bottom:10px;
+}
+
+.price{
+font-size:28px;
+color:var(--gold);
+font-weight:bold;
+margin:15px 0;
+}
+
+.btn{
+width:100%;
+padding:12px;
+background:var(--dark);
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+.btn:hover{
+background:var(--gold);
+}
+
+.newsletter{
+background:var(--dark);
+color:white;
+text-align:center;
+padding:70px 20px;
+}
+
+.newsletter input{
+padding:15px;
+width:320px;
+max-width:90%;
+border:none;
+border-radius:8px;
+margin-right:10px;
+}
+
+.newsletter button{
+padding:15px 20px;
+border:none;
+background:var(--gold);
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+footer{
+background:#111;
+color:white;
+text-align:center;
+padding:30px;
+}
+
+.count{
+text-align:center;
+margin-bottom:30px;
+font-size:18px;
+font-weight:bold;
+color:#666;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:36px;
+}
+
+.search-box input,
+.search-box select{
+width:100%;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-<h1>🍷 GourmetCompara</h1>
-<p>La web funciona correctamente.</p>
+<header>
+<div class="header-container">
+<div class="logo">🍷 GourmetCompara</div>
+</div>
+</header>
+
+<section class="hero">
+<h1>Encuentra los mejores productos gourmet</h1>
+<p>Compara precios y descubre productos exclusivos.</p>
+
+<div class="search-box">
+<input type="text" id="search" placeholder="Buscar producto...">
+<select id="filter">
+<option value="Todos">Todas las categorías</option>
+<option value="Jamones">Jamones</option>
+<option value="Vinos">Vinos</option>
+<option value="Aceites">Aceites</option>
+<option value="Quesos">Quesos</option>
+</select>
+</div>
+
+</section>
+
+<section>
+<div class="container">
+
+<h2 class="section-title">Productos Destacados</h2>
+
+<div class="count">
+<span id="results"></span> productos encontrados
+</div>
+
+<div class="products" id="products"></div>
+
+</div>
+</section>
+
+<section class="newsletter">
+
+<h2>Recibe ofertas gourmet</h2>
+<br>
+
+<input type="email" placeholder="Tu correo electrónico">
+<button onclick="alert('Gracias por suscribirte')">
+Suscribirme
+</button>
+
+</section>
+
+<footer>
+© 2026 GourmetCompara | Comparador de Productos Gourmet
+</footer>
+
+<script>
+
+const products = [
+
+{
+name:'Jamón Joselito Gran Reserva',
+category:'Jamones',
+price:'429 €',
+image:'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80'
+},
+
+{
+name:'Jamón 5J Bellota',
+category:'Jamones',
+price:'399 €',
+image:'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=800&q=80'
+},
+
+{
+name:'Vega Sicilia Valbuena',
+category:'Vinos',
+price:'149 €',
+image:'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'
+},
+
+{
+name:'Pago de Carraovejas',
+category:'Vinos',
+price:'42 €',
+image:'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=800&q=80'
+},
+
+{
+name:'Oro Bailén Reserva Familiar',
+category:'Aceites',
+price:'13,95 €',
+image:'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=80'
+},
+
+{
+name:'Marqués de Griñón AOVE',
+category:'Aceites',
+price:'18,50 €',
+image:'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=80'
+},
+
+{
+name:'Queso Manchego Curado',
+category:'Quesos',
+price:'16 €',
+image:'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=800&q=80'
+}
+
+];
+
+const productsContainer =
+document.getElementById('products');
+
+const searchInput =
+document.getElementById('search');
+
+const filterSelect =
+document.getElementById('filter');
+
+const results =
+document.getElementById('results');
+
+function renderProducts(){
+
+const text =
+searchInput.value.toLowerCase();
+
+const category =
+filterSelect.value;
+
+const filtered =
+products.filter(product => {
+
+const matchText =
+product.name.toLowerCase().includes(text);
+
+const matchCategory =
+category === 'Todos' ||
+product.category === category;
+
+return matchText && matchCategory;
+
+});
+
+results.textContent = filtered.length;
+
+productsContainer.innerHTML = filtered.map(product=>`
+
+<div class="card">
+
+<img src="${product.image}" alt="${product.name}">
+
+<div class="card-content">
+
+<span class="category">
+${product.category}
+</span>
+
+<h3>${product.name}</h3>
+
+<div class="price">
+${product.price}
+</div>
+
+<button class="btn">
+Comparar Precios
+</button>
+
+</div>
+
+</div>
+
+`).join('');
+
+}
+
+searchInput.addEventListener('input',renderProducts);
+filterSelect.addEventListener('change',renderProducts);
+
+renderProducts();
+
+</script>
 
 </body>
 </html>
