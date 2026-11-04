@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GourmetCompara</title>
+</head>
+
+<body style="font-family:Arial;text-align:center;padding:50px;background:#f5f5f5;">
+
+<h1 style="color:#b8860b;">🍷 GourmetCompara</h1>
+
+<p>Tu comparador de productos gourmet.</p>
+
+<button onclick="alert('La web funciona correctamente')">
+Probar Web
+</button>
+
+</body>
+</html>
